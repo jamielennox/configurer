@@ -1,0 +1,77 @@
+version: 2
+jobs:
+  py37:
+    docker:
+      - image: circleci/python:3.7
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - py37-dependencies-{{ checksum "test-requirements.txt" }}
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            source venv/bin/activate
+            pip3 install tox
+            tox -e py37 --notest
+
+      - save_cache:
+          paths:
+            - ./venv
+            - .tox/py37
+          key: py37-dependencies-{{ checksum "test-requirements.txt" }}
+
+      - run:
+          name: run tests
+          command: |
+            source venv/bin/activate
+            tox -e py37
+
+  py27:
+    docker:
+      - image: circleci/python:2.7
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - py27-dependencies-{{ checksum "test-requirements.txt" }}
+
+      - run:
+          name: install dependencies
+          command: |
+            virtualenv venv
+            source venv/bin/activate
+            pip install tox
+            tox -e py27 --notest
+
+      - save_cache:
+          paths:
+            - ./venv
+            - .tox/py27
+          key: py27-dependencies-{{ checksum "test-requirements.txt" }}
+
+      - run:
+          name: run tests
+          command: |
+            source venv/bin/activate
+            tox -e py27
+
+workflows:
+  version: 2
+  build_and_release:
+    jobs:
+      - py27:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+
+      - py37:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
