@@ -1,7 +1,7 @@
 API Documentation
 =================
 
-configurer.module
+configurer module
 -----------------
 
 .. automodule:: configurer
