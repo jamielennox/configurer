@@ -1,6 +1,10 @@
 class ConfigurerError(Exception):
-    pass
+    """
+    Base Exception class for all Exceptions defined in configurer.
+    """
 
 
 class ValidationError(ConfigurerError):
-    pass
+    """
+    An exception that is raised when a option vallue fails validation.
+    """

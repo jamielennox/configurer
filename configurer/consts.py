@@ -11,3 +11,6 @@ class _NoValue(object):
 
 
 NO_VALUE = _NoValue()
+"""
+A sentinel value used to represent no value being found in the config sources.
+"""

@@ -1,6 +1,13 @@
 API Documentation
 =================
 
+configurer.module
+-----------------
+
+.. automodule:: configurer
+    :members:
+    :undoc-members:
+
 configurer.parsers module
 ----------------------------
 
