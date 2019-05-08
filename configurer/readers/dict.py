@@ -3,10 +3,10 @@ import logging
 from configurer.consts import NO_VALUE
 from configurer.reader import ConfigReader
 
-LOG = logging.getLogger(__name__)
-
 
 class DictReader(ConfigReader):
+
+    LOG = logging.getLogger(__name__)
 
     def __init__(self, values):
         self._values = values
@@ -21,14 +21,14 @@ class DictReader(ConfigReader):
             try:
                 values = values[n]
             except KeyError:
-                LOG.debug('Read Miss: %s', debug_name)
+                self.LOG.debug('Read Miss: %s', debug_name)
                 return NO_VALUE
 
         try:
             value = values[name]
         except KeyError:
-            LOG.debug('Read Miss: %s', debug_name)
+            self.LOG.debug('Read Miss: %s', debug_name)
             return NO_VALUE
         else:
-            LOG.info('Read Found: %s', debug_name)
+            self.LOG.info('Read Found: %s', debug_name)
             return value

@@ -1,3 +1,5 @@
+import re
+
 from configurer.consts import NO_VALUE
 from configurer.exceptions import ValidationError
 
@@ -13,6 +15,8 @@ __all__ = [
     'Required',
     'GreaterThan',
     'LowerThan',
+
+    'Regex',
 ]
 
 
@@ -86,7 +90,7 @@ class Required(Validator):
 
     def __call__(self, option, value):
         if value is NO_VALUE:
-            m = "Required value '%s' is unset" % option._name
+            m = "Required value '%s' is unset" % option.name
             raise ValidationError(m)
 
 
@@ -99,7 +103,7 @@ class GreaterThan(Validator):
     def __call__(self, option, value):
         if value < self._value:
             m = "Value '%s' should be greater than '%s'. Got '%s'"
-            raise ValidationError(m % (option._name, self._value, value))
+            raise ValidationError(m % (option.name, self._value, value))
 
 
 class LowerThan(Validator):
@@ -111,4 +115,18 @@ class LowerThan(Validator):
     def __call__(self, option, value):
         if value > self._value:
             m = "Value '%s' should be less than '%s'. Got '%s'"
-            raise ValidationError(m % (option._name, self._value, value))
+            raise ValidationError(m % (option.name, self._value, value))
+
+
+class Regex(Validator):
+
+    def __init__(self, pattern, flags=0):
+        super(Regex, self).__init__()
+        self._value = re.compile(pattern, flags=flags)
+
+    def __call__(self, option, value):
+        if not self._value.match(value):
+            m = "Value '%s' does not match regular expression '%s'. Got '%s'"
+            raise ValidationError(m % (option.name,
+                                       self._value.pattern,
+                                       value))

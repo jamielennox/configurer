@@ -8,14 +8,9 @@ class ConfigManager(object):
 
     def get(self, name, namespace=None, default=NO_VALUE):
         for reader in self._readers:
-            try:
-                value = reader.get(name, namespace)
-            except KeyError:
-                pass
+            value = reader.get(name, namespace)
 
-            break
+            if value is not NO_VALUE:
+                return value
 
-        else:
-            return default
-
-        return value
+        return default

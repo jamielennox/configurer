@@ -7,13 +7,11 @@ class Component(object):
         self._config_manager = config_manager
         self._namespace = namespace
 
-    def __getitem__(self, name):
-        value = self.get(name, default=NO_VALUE)
-
-        if value is NO_VALUE:
-            raise KeyError(name)
-
-        return value
+    # def __getitem__(self, name):
+    #     value = self.get(name, default=NO_VALUE)
+    #     if value is NO_VALUE:
+    #         raise KeyError(name)
+    #     return value
 
     def get(self, name, default=NO_VALUE):
         value = self._config_manager.get(name, namespace=self._namespace)

@@ -16,6 +16,10 @@ class Option(object):
         self._validator = And(*(validator or []))
         self._doc = doc
 
+    @property
+    def name(self):
+        return self._name
+
     def parse(self, value):
         if value is NO_VALUE:
             return NO_VALUE
