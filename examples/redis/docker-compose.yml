@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  redis:
+    image: redis:5
+
+  python:
+    build: .
+    command:
+      - python
+      - redis-example.py
+    depends_on:
+      - redis
+    environment:
+      TEST_REDIS_HOST: redis
+    init: true
+    working_dir: /src/app/examples/redis
+    volumes:
+      - type: bind
+        source: ../..
+        target: /src/app
+        read_only: true
+
