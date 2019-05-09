@@ -1,7 +1,7 @@
 import logging
 
 from configurer.consts import NO_VALUE
-from configurer.reader import ConfigReader
+from configurer.readers import ConfigReader
 
 
 class DictReader(ConfigReader):
